@@ -59,6 +59,8 @@ public class IndoNumeroController {
     	txtCurrent.setText(String.format("%d", this.tentativi));
     	this.tentativi++;
     	txtMax.setText(String.format("%d",this.tMax));
+    	txtLog.clear();
+    	txtTentativo.clear();
     	
     }
 
