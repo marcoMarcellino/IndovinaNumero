@@ -49,7 +49,7 @@ public class IndoNumeroController {
     @FXML
     void handleNuova(ActionEvent event) {
 
-    	this.segreto = (int)Math.random()*NMAX+1;// per NMAX perchè sono tra 0 e uno e li moltiplico per 100 per essere corretto
+    	this.segreto = (int)(Math.random()*NMAX)+1;// per NMAX perchè sono tra 0 e uno e li moltiplico per 100 per essere corretto
     	
     	this.tentativi=0;
     	this.inGame=true;
@@ -57,6 +57,7 @@ public class IndoNumeroController {
     	btnNuova.setDisable(true);
     	boxGioco.setDisable(false);
     	txtCurrent.setText(String.format("%d", this.tentativi));
+    	this.tentativi++;
     	txtMax.setText(String.format("%d",this.tMax));
     	
     }
@@ -72,6 +73,41 @@ public class IndoNumeroController {
     	}
     	try {
     	int num= Integer.parseInt(numS);
+    	
+    	if(num==this.segreto) {
+    		//ha individuato il num
+    		txtLog.appendText("HAI VINTO!\n");
+    		//chiudi partita
+    		boxGioco.setDisable(true);
+    		btnNuova.setDisable(false);
+    		this.inGame=false;
+    	}
+    	else {
+    		//ha sbagliato
+    		this.tentativi++;
+    		txtCurrent.setText(String.format("%d", this.tentativi));
+    		
+    		if(this.tentativi==this.tMax) {
+    			//ha perso
+    			txtLog.appendText(String.format("Hai Perso! il numero era: %d\n", this.segreto));
+    		    //chiudo la partita come all'inizio
+    			boxGioco.setDisable(true);
+        		btnNuova.setDisable(false);
+        		this.inGame=false;
+    		}
+    		else {
+    			//è in gioco
+    			if(num<segreto) {
+    				//tentativo basso
+    				txtLog.appendText("TROPPO BASSO\n");
+    			}
+    			else {
+    				//tentativo alto
+    				txtLog.appendText("TROPPO ALTO\n");
+    			}
+    		}
+    	}
+    	
     	}catch(NumberFormatException ex) {
     		txtLog.appendText("Dato inserito non è corretto\n");
     		return;
